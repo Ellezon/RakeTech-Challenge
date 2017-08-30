@@ -6,12 +6,17 @@ background-color:black;
 color:black;
 }
 
+body{
+    font-family: 'Lato';font-size: 22px;
+}
+
 #header_content {
 text-align:center;
 height:6vw;
 margin-left:auto;
 margin-right:auto;
 text-align:center;
+font-family: 'Itim';
 }
 
 #organiser img {
@@ -39,6 +44,7 @@ display: flex;
 #tasks > div {
   flex: 1; 
 }
+
 #tasks table {
 text-align:center;
 width:100%;
@@ -50,8 +56,7 @@ overflow-y:auto;
 thead {
 text-align:center;
 color:white;
-font-weight:bold;
-font-size:2vw;
+font-size:2.3vw;
 }
 
 #todo thead {
@@ -65,7 +70,7 @@ background-color:#F19928;
 background-color:#0BBC13;
 }
 thead td {
-padding:.6em;
+padding:.4em;
 border:3px solid black;
 }
 
@@ -97,6 +102,8 @@ color:rgb(255,255,255);
 
 tbody td:nth-of-type(2n-1):hover,tbody td:nth-of-type(2n):focus {
 font-weight:bold;
+text-decoration: underline;
+cursor: pointer;
 }
 
 #footer-content {
