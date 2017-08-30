@@ -6,6 +6,9 @@ background-color:black;
 color:black;
 }
 
+
+
+
 body {
 font-family: 'Lato ';
 font-size:22px;
@@ -150,4 +153,12 @@ cursor:pointer;
 text-align:center;
 color:white;
 font-size:1.4vw;
+}
+
+@media screen and (max-width: 500px){
+#tasks {
+display: block ;
+width: 100%
+}
+
 }
