@@ -2,7 +2,7 @@
 
 function connect_db()
 {
-  return mysqli_connect('localhost','root','root','taketechtask');
+  return mysqli_connect('localhost','root','root','raketechtask');
 }
 
 ?>
