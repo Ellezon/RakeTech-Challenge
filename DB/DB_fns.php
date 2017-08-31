@@ -17,7 +17,7 @@ function connect_and_get($status, $keyword, $title)
         $totalHours = 0;
         $rowno = -1;
 
-        echo "  <div id= 'tasks'>
+        echo " 
                     <div id= '$keyword-div'>
                         <table>
                             <thead>
@@ -65,9 +65,11 @@ function connect_and_get($status, $keyword, $title)
 function get_tasks()
 {
     $link = connect_db();
+    echo " <div id= 'tasks'>";
     connect_and_get("0", "todo", "To-Do"); 
     connect_and_get("1", "progress", "In Progress"); 
     connect_and_get("2", "done", "Done"); 
+    echo "</div>";
 }
 
 ?>
