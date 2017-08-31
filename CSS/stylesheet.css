@@ -91,7 +91,7 @@ background-color:#F12840;
 color:white;
 }
 
-#inprogress-div thead {
+#progress-div thead {
 background-color:#F19928;
 color:white;
 }
@@ -101,13 +101,15 @@ background-color:#0BBC13;
 color:white;
 }
 
+
+
 /*Set backgorund color and font colour for each footer*/
 #todo-div tfoot {
 background-color:#F12840;
 color:white;
 }
 
-#inprogress-div tfoot {
+#progress-div tfoot {
 background-color:#F19928;
 color:white;
 }
@@ -118,22 +120,12 @@ color:white;
 }
 
 
-/*Alternate colours*/
-tbody tr:nth-of-type(2n-1) {
+
+tbody tr {
 background:#FFFFFF;
 }
 
-#todo-div tr:nth-of-type(2n) {
-background:#FFDDE1;
-}
 
-#inprogress-div tbody tr:nth-of-type(2n) {
-background:#FED9AE;
-}
-
-#done-div tbody tr:nth-of-type(2n) {
-background:#B0FFB4;
-}
 /*Underline and make titles bold on hover*/
 tbody td:nth-of-type(2n-1):hover,tbody td:nth-of-type(2n):focus {
 font-weight:bold;
@@ -145,6 +137,21 @@ cursor:pointer;
 text-align:center;
 color:white;
 font-size:2vw;
+}
+
+/* Do not display notes
+  Do not underline or make titles bold on hover*/
+.todo_notes, .progress_notes, .done_notes
+{
+    display: none;
+}
+
+
+tbody .todo_notes td:hover,tbody .todo_notes td:focus, tbody .progress_notes td:hover,tbody .progress_notes td:focus, tbody .done_notes td:hover,tbody .done_notes td:focus
+{
+    font-weight: normal;
+    text-decoration:none;
+    cursor:auto;
 }
 
 
