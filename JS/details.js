@@ -7,6 +7,7 @@ var editing = false;
 var notes_value = null;
 var title_value = null;
 var hours_value = null;
+var row_no = null;
 
 
 function show_info(table, id, rowno)
@@ -63,11 +64,9 @@ function stop_editing(keyword)
 {
     //show edit and delete buttons and hide edit options
 	var classname = keyword + "_info";
-	document.getElementsByClassName(classname)[1].style.display = "table-row";
-	document.getElementsByClassName(classname)[1].style.display = "table-row";
+	document.getElementsByClassName(classname)[row_no+row_no+1].style.display = "table-row";
 	classname = keyword + "_editbuttons";
-	document.getElementsByClassName(classname)[0].style.display = "none";
-	document.getElementsByClassName(classname)[0].style.display = "none";
+	document.getElementsByClassName(classname)[row_no].style.display = "none";
 	editing = false;
     
     //clear global vars
@@ -79,13 +78,15 @@ function stop_editing(keyword)
 	notes_value = null;
 	title_value = null;
 	hours_value = null;
+    row_no = null;
 }
 
-function edit_task(id, keyword, rowno)
+function edit_task(id, keyword, in_rowno)
 {
-	notes_elemid = "#" + keyword + "_notes_" + rowno;
-	title_elemid = "#" + keyword + "_title_" + rowno;
-	hours_elemid = "#" + keyword + "_hours_" + rowno;
+    row_no = in_rowno;
+	notes_elemid = "#" + keyword + "_notes_" + row_no;
+	title_elemid = "#" + keyword + "_title_" + row_no;
+	hours_elemid = "#" + keyword + "_hours_" + row_no;
     totalhours_elemid = "#" + keyword + '_totalhours';
     
 	//edit_id = "#" +keyword + "_edit";
@@ -123,11 +124,9 @@ function edit_task(id, keyword, rowno)
 	}).appendTo(title_elemid);
 	$('#title_editing').focus();
 	var classname = keyword + "_info";
-	document.getElementsByClassName(classname)[1].style.display = "none";
-	document.getElementsByClassName(classname)[1].style.display = "none";
+	document.getElementsByClassName(classname)[row_no+row_no+1].style.display = "none";
 	classname = keyword + "_editbuttons";
-	document.getElementsByClassName(classname)[0].style.display = "table-row";
-	document.getElementsByClassName(classname)[0].style.display = "table-row";
+	document.getElementsByClassName(classname)[row_no].style.display = "table-row";
 };
 
 function done_editing(keyword)
