@@ -117,39 +117,42 @@ cursor:pointer;
 /* buttons */
 button{
     color:white;
-    width: 70%;
+    width: 80%;
     height: 100%;
     font-weight: bold;
     border-radius: 20px;
     text-align: center;}
     
     
-    
+/* dialogue buttons */
 #todo_delete, #progress_delete, #done_delete{
     display: none;
 }
-
-
-
 
 #todo_delete button, #progress_delete button , #done_delete button{
     width: 45%;
     }
 
-/* Do not display notes
+/* Do not display more information until cilcked
   Do not underline or make titles bold on hover*/
-.todo_notes, .progress_notes, .done_notes
+.todo_info, .progress_info, .done_info
 {
     background-color: #EDEDED; /* light grey */
     display: none;
 }
 
 
-tbody .todo_notes td:hover,tbody .todo_notes td:focus, tbody .progress_notes td:hover,tbody .progress_notes td:focus, tbody .done_notes td:hover,tbody .done_notes td:focus
+
+tbody .todo_info td:hover,tbody .todo_info td:focus,tbody .progress_info td:hover,tbody .progress_info td:focus,tbody .done_info td:hover,tbody .done_info td:focus
 {
     font-weight: normal;
     text-decoration:none;
     cursor:auto;
+}
+
+.todo_editbuttons,.progress_editbuttons ,.done_editbuttons  
+{
+    display:none;
 }
 
 

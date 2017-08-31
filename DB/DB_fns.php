@@ -5,6 +5,29 @@ if (isset($_GET["del_id"])) {
     $outp = delete_task($del_id);
     unset($_GET["del_id"]);
 }
+if (isset($_POST["edit_id"])) {
+    $edit_info = new stdClass();
+
+
+    $edit_id = json_decode($_POST["edit_id"], false);
+    if (isset($_POST["edit_notes"])) {
+        $edit_notes = $_POST["edit_notes"];
+        $edit_info->notes = $edit_notes;
+    }
+    if (isset($_POST["edit_title"])) {
+        $edit_title = $_POST["edit_title"];
+        $edit_info->title = $edit_title;
+    }
+    if (isset($_POST["edit_hours"])) {
+        $edit_hours = $_POST["edit_hours"];
+        $edit_info->hours = $edit_hours;
+    }
+
+    $outp = edit_task($edit_id, $edit_info);
+    unset($_POST["edit_id"]);
+    unset($_POST["edit_notes"]);
+    $edit_info = null;
+}
 
 
 function connect_and_get($status, $keyword, $title)
@@ -28,33 +51,48 @@ function connect_and_get($status, $keyword, $title)
 
         while ($row = mysqli_fetch_object($result)) {
             $name = $row->task_title;
+            $id = $row->task_ID;
             $hours = $row->task_hours;
             $totalHours += $hours;
-            $table = "\"$keyword\"";
-            $buttonclass = $keyword."_button";
-            $buttonclass = str_replace("\"","",$buttonclass);
-            $delete_id = $keyword."_delete";
-            $delete_id = str_replace("\"","",$delete_id);
-            $yes_id = $keyword."_yes";
-            $yes_id  = str_replace("\"","",$yes_id );
-            $classname = $keyword."_notes";
-            $classname = str_replace("\"","",$classname);
             $rowno++;
+            $table = "\"$keyword\"";
+            $edit_id = $keyword . "_edit";
+            $edit_id = str_replace("\"", "", $edit_id);
+            $buttonclass = $keyword . "_button";
+            $buttonclass = str_replace("\"", "", $buttonclass);
+            $delete_id = $keyword . "_delete";
+            $delete_id = str_replace("\"", "", $delete_id);
+            $notes_id = $keyword . "_notes_". $rowno;
+            $notes_id = str_replace("\"", "", $notes_id);
+            $title_id = $keyword . "_title_" . $rowno;
+            $title_id = str_replace("\"", "", $title_id);
+            $hours_id = $keyword . "_hours_". $rowno;
+            $hours_id = str_replace("\"", "", $hours_id);            
+            $yes_id = $keyword . "_yes";
+            $yes_id = str_replace("\"", "", $yes_id);
+            $info_rows = $keyword . "_info";
+            $info_rows = str_replace("\"", "", $info_rows);
+            $edit_buttons = $keyword . "_editbuttons";
+            $edit_buttons = str_replace("\"", "", $edit_buttons);
             $notes = $row->task_notes;
             if (empty($row->task_notes)) {
                 $notes = "None";
             }
-            
+
             echo "  <tr>
-                        <td onclick='show_info($table,$row->task_ID, $rowno);'>$name</td>
-                        <td>$hours</td>
+                        <td id= '$title_id' onclick='show_info($table,$id, $rowno);'>$name</td>
+                        <td id= '$hours_id'>$hours</td>
                     </tr>
-                    <tr  class =$classname>
-                    <td colspan = '2'>Notes: $notes </td>
+                    <tr  class =$info_rows>
+                    <td id= '$notes_id' colspan = '2'>Notes: $notes </td>
                     </tr>
-                    <tr  class =$classname>
-                    <td> <button class ='$buttonclass $keyword'>Edit</button> </td>
-                    <td> <button onclick='open_dialogue($row->task_ID,$delete_id,$table)'  class ='$buttonclass $keyword'>Delete</button> </td>
+                    <tr  class =$info_rows>
+                    <td> <button id='$edit_id' onclick='edit_task($id,$table,$rowno)' class ='$buttonclass $keyword'>Edit</button> </td>
+                    <td> <button onclick='open_dialogue($id,$delete_id,$table)'  class ='$buttonclass $keyword'>Delete</button> </td>
+                    </tr>
+                    <tr  class =$edit_buttons>
+                    <td> <button  class ='$buttonclass $keyword'>Done</button> </td>
+                    <td> <button  class ='$buttonclass $keyword'>Cancel</button> </td>
                     </tr>
                     ";
         }
@@ -71,7 +109,7 @@ function connect_and_get($status, $keyword, $title)
         <button id = '$yes_id' class='$keyword'> Yes </button>
         <button onclick='close_dialogue($delete_id);' id='close' class='$keyword'> Cancel </button>
       </div>";
- 
+
 
     }
 }
@@ -80,28 +118,59 @@ function delete_task($del_id)
 {
     $link = connect_db();
     if ($link->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+        die("Connection failed: " . $conn->connect_error);
+    }
 
     $sql = "DELETE FROM `tasks` WHERE `task_ID` = $del_id";
-    if ($link->query($sql) === TRUE) {
-    echo "Record deleted successfully";
+    if ($link->query($sql) === true) {
+        echo "Record deleted successfully";
     } else {
-    echo "Error deleting record: " . $link->error;
+        echo "Error deleting record: " . $link->error;
+    }
 }
+
+function edit_task($edit_id, $edit_info)
+{
+    error_log("sending to db");
+    $link = connect_db();
+    if ($link->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sqlpt = "";
+    if(isset($edit_info->notes))
+    {
+        $sqlpt = $sqlpt.", `task_notes` = \"$edit_info->notes\"";
+    }
+    if(isset($edit_info->hours))
+    {
+        $sqlpt = $sqlpt.",`task_hours` = $edit_info->hours";
+    }
+    if(isset($edit_info->title))
+    {
+        $sqlpt = $sqlpt.",`task_title` = $edit_info->title";
+    }
     
-           
+    //remove starting comma
+    $sqlpt = preg_replace('/^,+|,+$/', '', $sqlpt);
+    $sql = "UPDATE `tasks` SET $sqlpt WHERE `task_ID` = $edit_id";
+    error_log("all: ".$sql);
+    if ($link->query($sql) === true) {
+        echo "Record updated successfully";
+    } else {
+        echo "Error deleting record: " . $link->error;
+    }
+
 }
 function get_tasks()
 {
     $link = connect_db();
     if ($link->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+        die("Connection failed: " . $conn->connect_error);
+    }
     echo " <div id= 'tasks'>";
-    connect_and_get("0", "todo", "To-Do"); 
-    connect_and_get("1", "progress", "In Progress"); 
-    connect_and_get("2", "done", "Done"); 
+    connect_and_get("0", "todo", "To-Do");
+    connect_and_get("1", "progress", "In Progress");
+    connect_and_get("2", "done", "Done");
     echo "</div>";
 }
 
