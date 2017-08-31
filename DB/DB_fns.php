@@ -91,8 +91,8 @@ function connect_and_get($status, $keyword, $title)
                     <td> <button onclick='open_dialogue($id,$delete_id,$table)'  class ='$buttonclass $keyword'>Delete</button> </td>
                     </tr>
                     <tr  class =$edit_buttons>
-                    <td> <button  class ='$buttonclass $keyword'>Done</button> </td>
-                    <td> <button  class ='$buttonclass $keyword'>Cancel</button> </td>
+                    <td> <button  onclick='done_editing($table)' class ='$buttonclass $keyword'>Done</button> </td>
+                    <td> <button  onclick='cancel_editing($table)' class ='$buttonclass $keyword'>Cancel</button> </td>
                     </tr>
                     ";
         }
@@ -131,7 +131,6 @@ function delete_task($del_id)
 
 function edit_task($edit_id, $edit_info)
 {
-    error_log("sending to db");
     $link = connect_db();
     if ($link->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -147,13 +146,13 @@ function edit_task($edit_id, $edit_info)
     }
     if(isset($edit_info->title))
     {
-        $sqlpt = $sqlpt.",`task_title` = $edit_info->title";
+        $sqlpt = $sqlpt.",`task_title` = \"$edit_info->title\"";
     }
     
     //remove starting comma
     $sqlpt = preg_replace('/^,+|,+$/', '', $sqlpt);
     $sql = "UPDATE `tasks` SET $sqlpt WHERE `task_ID` = $edit_id";
-    error_log("all: ".$sql);
+    //error_log("all: ".$sql);
     if ($link->query($sql) === true) {
         echo "Record updated successfully";
     } else {

@@ -3,6 +3,9 @@ var notes_elemid = null;
 var title_elemid = null;
 var hours_elemid = null;
 var editing = false;
+var notes_value = null;
+var title_value = null;
+var hours_value = null;
 
 function show_info(table, id, rowno)
 {    if(!editing)    
@@ -47,6 +50,26 @@ function open_dialogue(id, delete_id, keyword)
       
 };
 
+function cancel_editing(keyword)
+{
+     $(notes_elemid).html("Notes: "+ notes_value);
+    $(title_elemid).html(title_value);
+    $(hours_elemid).html(hours_value);
+    stop_editing(keyword);
+}
+
+function stop_editing(keyword)
+{
+    var classname = keyword + "_info";
+   document.getElementsByClassName(classname)[1].style.display = "table-row";
+   document.getElementsByClassName(classname)[1].style.display = "table-row";
+    
+    classname = keyword + "_editbuttons";
+
+    document.getElementsByClassName(classname)[0].style.display = "none";
+    document.getElementsByClassName(classname)[0].style.display = "none";
+    editing = false;
+}
 function edit_task(id, keyword, rowno)
 {
 	notes_elemid = "#" + keyword + "_notes_" + rowno;
@@ -55,9 +78,9 @@ function edit_task(id, keyword, rowno)
     //edit_id = "#" +keyword + "_edit";
     
 	task_id = id;
-	var notes_value = $(notes_elemid).text();
-	var title_value = $(title_elemid).text();
-    var hours_value = $(hours_elemid).text();
+	notes_value = $(notes_elemid).text();
+	title_value = $(title_elemid).text();
+    hours_value = $(hours_elemid).text();
     
     //prevent 'Notes:' from displaying
 	notes_value  = notes_value .split(": ");
@@ -99,49 +122,46 @@ function edit_task(id, keyword, rowno)
     classname = keyword + "_editbuttons";
 
     document.getElementsByClassName(classname)[0].style.display = "table-row";
-    document.getElementsByClassName(classname)[0].style.display = "table-row";
-
-    //$(edit_id).html('Done');        
-    
+    document.getElementsByClassName(classname)[0].style.display = "table-row";   
    	
 
 };
 
-//$(document).on('blur', '#notes_editing', function()
-//{
-//	var name = $(this).val();
-//	$(notes_elemid).text("Note: " + name);
-// });
-//when finished editing send changed to DB
+function done_editing(keyword)
+{
+    notes_value = $('#notes_editing').val();
+    title_value = $('#title_editing').val();
+    hours_value = $('#hours_editing').val();
+	$(notes_elemid).text("Notes: " + notes_value);
+	$(title_elemid).text(title_value);
+    $(hours_elemid).text(hours_value);
+    
+    //when finished editing send changed to DB
 
-    //$.ajax(
-//	{
-//		data: {
-//			'edit_id': task_id,
-//			'edit_notes': name
-//		},
-//		url: '../DB/DB_fns.php',
-//		method: 'POST',
-//		success: function(msg)
-//		{
-//			$(notes_elemid).text("Note: " + name);
-//			//clear global vars
-//			task_id = null;
-//			notes_elemid = null;
-//            title_elemid = null;
-//            hours_elemid = null;
-//              editing= false;
-//var classname = keyword + "_info";
-//   document.getElementsByClassName(classname)[1].style.display = "table-row";
-//   document.getElementsByClassName(classname)[1].style.display = "table-row";
-//    
-//    classname = keyword + "_editbuttons";
-//
-//    document.getElementsByClassName(classname)[0].style.display = "none";
-//    document.getElementsByClassName(classname)[0].style.display = "none";
-//		}
-//	});
-	
+    $.ajax(
+	{
+		data: {
+			'edit_id': task_id,
+			'edit_notes': notes_value,
+            'edit_title': title_value,
+            'edit_hours' : hours_value                        
+		},
+		url: '../DB/DB_fns.php',
+		method: 'POST'
+   });
+	//clear global vars
+			task_id = null;
+			notes_elemid = null;
+            title_elemid = null;
+            hours_elemid = null;
+            notes_value = null;
+            title_value = null;
+            hours_value = null;
+
+
+    stop_editing(keyword);
+ };
+
 
 
 function close_dialogue(delete_id)
