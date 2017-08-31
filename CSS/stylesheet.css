@@ -7,7 +7,7 @@ color:black;
 }
 
 body {
-font-family: 'Lato ';
+font-family: 'Lato';
 }
 
 /*header*/
@@ -18,7 +18,7 @@ height:4vw;
 margin-left:auto;
 margin-right:auto;
 text-align:center;
-font-family: 'Itim ';
+font-family: 'Itim';
 }
 
 #organiser img {
@@ -143,6 +143,7 @@ font-size:2vw;
   Do not underline or make titles bold on hover*/
 .todo_notes, .progress_notes, .done_notes
 {
+    background-color: #EDEDED;
     display: none;
 }
 
