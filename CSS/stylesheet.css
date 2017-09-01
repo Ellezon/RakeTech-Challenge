@@ -3,23 +3,20 @@ height:100%;
 width:100%;
 margin:0;
 background-color:black;
-color:black;
 }
 
 body {
-font-family: 'Lato';
-font-size:  1.5vw;
+font-family: 'Lato ';
+font-size:1.5vw;
 }
-
 /*header*/
-
 #header-content {
 text-align:center;
 height:4vw;
 margin-left:auto;
 margin-right:auto;
 text-align:center;
-font-family: 'Itim';
+font-family: 'Itim ';
 }
 
 #organiser img {
@@ -36,8 +33,8 @@ color:white;
 font-size:4vw;
 }
 
-/*task table*/
 
+/*task table*/
 #tasks {
 padding-top:3vw;
 width:70%;
@@ -59,28 +56,26 @@ overflow-x:auto;
 overflow-y:auto;
 }
 
-
-tbody td, thead td, tfoot td {
+tbody td,thead td,tfoot td {
 padding:.8vw;
 font-size:1.5vw;
 border:3px solid black;
 }
-
 /*set themes*/
-.todo{
-    background-color:#F12840;  /* red */
-    color:white;
+.todo {
+background-color:#F12840; /* red */
+color:white;
 }
+
 .progress {
-    background-color:#F19928;  /* orange */
-    color:white;
+background-color:#F19928; /* orange */
+color:white;
 }
+
 .done {
-   background-color:#0BBC13;  /* green */
-   color:white;
+background-color:#0BBC13; /* green */
+color:white;
 }
-
-
 /* Make rounded borders */
 table thead tr:first-child td:first-child {
 border-top-left-radius:10px;
@@ -98,95 +93,110 @@ table tfoot tr:last-child td:last-child {
 border-bottom-right-radius:10px;
 }
 
-
-
 tbody tr {
-background:#FFFFFF; 
+background:#FFFFFF;
 }
-
-
 /*Underline and make titles bold on hover*/
 tbody td:nth-of-type(2n-1):hover,tbody td:nth-of-type(2n):focus {
 font-weight:bold;
 text-decoration:underline;
 cursor:pointer;
 }
-
-
-
 /* buttons */
-button{
-    color:white;
-    width: 80%;
-    height: 100%;
-    font-weight: bold;
-    border-radius: 20px;
-    text-align: center;}
-    
-    
+button {
+color:white;
+width:100%;
+height:100%;
+font-weight:bold;
+border-radius:20px;
+text-align:center;
+}
+
+button:hover
+{
+    cursor: pointer;
+}
 /* dialogue buttons */
-#todo_delete, #progress_delete, #done_delete{
-    display: none;
+#todo_delete,#progress_delete,#done_delete {
+display:none;
 }
 
-#todo_delete button, #progress_delete button , #done_delete button{
-    width: 45%;
-    }
-
-/* Do not display more information until cilcked
+#todo_delete button,#progress_delete button,#done_delete button {
+width:45%;
+}
+/* Do not display more information until title is cilcked
   Do not underline or make titles bold on hover*/
-.todo_info, .progress_info, .done_info
-{
-    background-color: #EDEDED; /* light grey */
-    display: none;
+.todo_info,.progress_info,.done_info {
+background-color:#EDEDED; /* light grey */
+display:none;
+}
+
+tbody .todo_info td:hover,tbody .todo_info td:focus,tbody .progress_info td:hover,tbody .progress_info td:focus,tbody .done_info td:hover,tbody .done_info td:focus {
+font-weight:normal;
+text-decoration:none;
+cursor:auto;
+}
+
+/* Do not display edit buttons until edit button is clicked*/
+.todo_editbuttons,.progress_editbuttons,.done_editbuttons {
+display:none;
+}
+
+tbody .todo_editbuttons td:hover,tbody .progress_editbuttons td:hover,tbody .done_editbuttons td:hover {
+cursor:auto;
 }
 
 
-
-tbody .todo_info td:hover,tbody .todo_info td:focus,tbody .progress_info td:hover,tbody .progress_info td:focus,tbody .done_info td:hover,tbody .done_info td:focus
-{
-    font-weight: normal;
-    text-decoration:none;
-    cursor:auto;
-}
-
-.todo_editbuttons,.progress_editbuttons ,.done_editbuttons  
-{
-    display:none;
+/*error messages*/
+.error_class,.error_class:hover {
+text-decoration:none;
+font-size:1vw;
+color:red;
+font-weight:bold;
+display:none;
+text-align:center;
 }
 
 
+/*footer styling*/
 #footer-content {
 text-align:center;
 font-size:2vw;
 }
-
 /*Responsive*/
-@media screen and (max-width: 800px){
+@media screen and (max-width:800px) {
 #tasks {
-display: block ;
-width: 100%
+display:block;
+width:100%
 }
 
-body
-{font-size:  2vw;
+body {
+font-size:2vw;
 }
-tbody td, tfoot td, thead td {
+
+tbody td,tfoot td,thead td {
 padding:2vw;
 font-size:3vw;
 }
-#header-content
-{
-    height: 6vw;
+
+#header-content {
+height:6vw;
 }
+
 #organiser {
 width:100%;
 height:100%;
 font-size:6vw;
 }
 
-button{
-    padding: 1vw;}
+button {
+padding:1vw;
+}
 
+.error_class,.error_class:hover {
+text-decoration:none;
+font-size:3vw;
+
+}
 
 }

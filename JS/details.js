@@ -9,21 +9,20 @@ var title_value = null;
 var hours_value = null;
 var row_no = null;
 
-
 function show_info(table, id, rowno)
 {
 	if (!editing)
 	{
-		var classname = table + "_info";
-		if (document.getElementsByClassName(classname)[rowno + rowno].style.display == "table-row")
+		var info_classname = table + "_info";
+		if (document.getElementsByClassName(info_classname)[rowno + rowno].style.display == "table-row")
 		{
-			document.getElementsByClassName(classname)[rowno + rowno].style.display = "none";
-			document.getElementsByClassName(classname)[rowno + rowno + 1].style.display = "none";
+			document.getElementsByClassName(info_classname)[rowno + rowno].style.display = "none";
+			document.getElementsByClassName(info_classname)[rowno + rowno + 1].style.display = "none";
 		}
 		else
 		{
-			document.getElementsByClassName(classname)[rowno + rowno].style.display = "table-row";
-			document.getElementsByClassName(classname)[rowno + rowno + 1].style.display = "table-row";
+			document.getElementsByClassName(info_classname)[rowno + rowno].style.display = "table-row";
+			document.getElementsByClassName(info_classname)[rowno + rowno + 1].style.display = "table-row";
 		}
 	}
 };
@@ -62,33 +61,35 @@ function cancel_editing(keyword)
 
 function stop_editing(keyword)
 {
-    //show edit and delete buttons and hide edit options
+	//show edit and delete buttons and hide edit options
 	var classname = keyword + "_info";
-	document.getElementsByClassName(classname)[row_no+row_no+1].style.display = "table-row";
+	document.getElementsByClassName(classname)[row_no + row_no + 1].style.display = "table-row";
 	classname = keyword + "_editbuttons";
 	document.getElementsByClassName(classname)[row_no].style.display = "none";
 	editing = false;
-    
-    //clear global vars
+	//make title appear clickable once more
+	var title_classname = keyword + '_title_' + row_no;
+	console.log("editing! :" + title_classname);
+	document.getElementById(title_classname).style.cursor = 'pointer';
+	//clear global vars
 	task_id = null;
 	notes_elemid = null;
 	title_elemid = null;
-    totalhours_elemid = null;
+	totalhours_elemid = null;
 	hours_elemid = null;
 	notes_value = null;
 	title_value = null;
 	hours_value = null;
-    row_no = null;
+	row_no = null;
 }
 
 function edit_task(id, keyword, in_rowno)
 {
-    row_no = in_rowno;
+	row_no = in_rowno;
 	notes_elemid = "#" + keyword + "_notes_" + row_no;
 	title_elemid = "#" + keyword + "_title_" + row_no;
 	hours_elemid = "#" + keyword + "_hours_" + row_no;
-    totalhours_elemid = "#" + keyword + '_totalhours';
-    
+	totalhours_elemid = "#" + keyword + '_totalhours';
 	//edit_id = "#" +keyword + "_edit";
 	task_id = id;
 	notes_value = $(notes_elemid).text();
@@ -123,45 +124,72 @@ function edit_task(id, keyword, in_rowno)
 		'id': 'title_editing'
 	}).appendTo(title_elemid);
 	$('#title_editing').focus();
+    
+    //remove edit and delete buttons and show done and cancel buttons
 	var classname = keyword + "_info";
-	document.getElementsByClassName(classname)[row_no+row_no+1].style.display = "none";
+	document.getElementsByClassName(classname)[row_no + row_no + 1].style.display = "none";
 	classname = keyword + "_editbuttons";
 	document.getElementsByClassName(classname)[row_no].style.display = "table-row";
+    
+    //remove error
+    var err_classname = keyword + '_err';
+    document.getElementById(err_classname).innerHTML='';
+	//make title seem unclickable
+	var title_classname = keyword + '_title_' + row_no;
+	console.log("editing! :" + title_classname);
+	document.getElementById(title_classname).style.cursor = 'auto';
 };
 
 function done_editing(keyword)
 {
-    var oldhours_value = hours_value;
-	notes_value = $('#notes_editing').val();
-	title_value = $('#title_editing').val();
-	hours_value = $('#hours_editing').val();
-    
     //update total hours
-    var difference =  oldhours_value - hours_value;
-    
-    var totalhours = $(totalhours_elemid).text() - difference;
-    
-    $(totalhours_elemid).text(totalhours);
-    
-	$(notes_elemid).text("Notes: " + notes_value);
-	$(title_elemid).text(title_value);
-	$(hours_elemid).text(hours_value);
-	//when finished editing send changed to DB
-	$.ajax(
-	{
-		data: {
-			'edit_id': task_id,
-			'edit_notes': notes_value,
-			'edit_title': title_value,
-			'edit_hours': hours_value
-		},
-		url: '../DB/DB_fns.php',
-		method: 'POST'
-	});
-	
-	stop_editing(keyword);
-    
- 
+		var difference =  hours_value- $('#hours_editing').val();
+		var totalhours = $(totalhours_elemid).text() - difference;
+        var err_classname = keyword + '_err';
+	if (keyword == 'todo' && totalhours > 24)
+	{	
+			document.getElementById(err_classname).innerHTML='Error! Total hours must remain under 24!';
+			document.getElementById(err_classname).style.display = 'table-cell';
+           return;
+	}
+    else if (keyword == 'progress' && totalhours > 8)
+	{	
+			document.getElementById(err_classname).innerHTML='Error! Total hours must remain under 8!';
+			document.getElementById(err_classname).style.display = 'table-cell';
+           return;
+	}
+        
+
+		document.getElementById(err_classname).style.display = 'none';
+		
+        notes_value = $('#notes_editing').val();
+		title_value = $('#title_editing').val();
+		hours_value = $('#hours_editing').val();
+        
+        $(totalhours_elemid).text(totalhours);
+		$(notes_elemid).text("Notes: " + notes_value);
+		$(title_elemid).text(title_value);
+		$(hours_elemid).text(hours_value);
+        
+        
+        
+        
+		//when finished editing send changed to DB
+		$.ajax(
+		{
+			data: {
+				'edit_id': task_id,
+				'edit_notes': notes_value,
+				'edit_title': title_value,
+				'edit_hours': hours_value
+			},
+			url: '../DB/DB_fns.php',
+			method: 'POST',
+			success: function()
+			{
+			}
+		});
+		stop_editing(keyword);
 };
 
 function close_dialogue(delete_id)

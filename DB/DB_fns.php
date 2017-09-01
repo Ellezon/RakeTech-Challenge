@@ -78,6 +78,8 @@ function connect_and_get($status, $keyword, $title)
 												$hours_id = str_replace("\"", "", $hours_id);
 												$yes_id = $keyword . "_yes";
 												$yes_id = str_replace("\"", "", $yes_id);
+                                                $error_id = $keyword . "_err";
+												$error_id = str_replace("\"", "", $error_id);
 												$info_rows = $keyword . "_info";
 												$info_rows = str_replace("\"", "", $info_rows);
 												$edit_buttons = $keyword . "_editbuttons";
@@ -102,7 +104,7 @@ function connect_and_get($status, $keyword, $title)
                     <td> <button onclick='open_dialogue($id,$delete_id,$table)'  class ='$buttonclass $keyword'>Delete</button> </td>
                     </tr>
                     <tr  class =$edit_buttons>
-                    <td> <button  onclick='done_editing($table)' class ='$buttonclass $keyword'>Done</button> </td>
+                    <td> <span class='error_class' id='$error_id'></span><button  onclick='done_editing($table)' class ='$buttonclass $keyword'>Done</button> </td>
                     <td> <button  onclick='cancel_editing($table)' class ='$buttonclass $keyword'>Cancel</button> </td>
                     </tr>
                     ";
