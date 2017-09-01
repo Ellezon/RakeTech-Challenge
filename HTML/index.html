@@ -4,3 +4,30 @@
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+<div class="new_task_center">
+<button class= "add_buttons"> Add New Task </button>
+</div>
+
+<form id ="new_task" action="../DB/DB_fns.php">
+
+ <div class="new_task_left">
+  <input type="text" name="title" placeholder="Task Name"/>
+  </div>
+  <div class="new_task_right">
+  <input type="number" name="hours" placeholder="Number of hours"/>
+  </div>
+  
+  <div class="new_task_left">
+   <input type="text" name="notes" placeholder="Notes (Optional)"/>
+   </div>
+   
+   <div class="new_task_right">
+  <input checked type="radio" name="gender" value="todo"  /> To-Do
+  <input type="radio" name="gender" value="progress"/> In Progress
+ </div>
+ 
+  <div class="new_task_center">
+  <button class= "add_buttons" type="submit" form="new_task" value="Submit">Submit</button>
+  </div>
+  
+</form> 
