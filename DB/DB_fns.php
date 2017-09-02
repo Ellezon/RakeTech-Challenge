@@ -37,43 +37,44 @@ if (isset($_POST["edit_id"]))
 
 if (isset($_GET["title"]))
 {
-    new_task();
-    unset($_GET["title"]);
-    unset($_GET["hours"]);
-    unset($_GET["notes"]);
-    unset($_GET["status"]);
-				
+				new_task();
+				unset($_GET["title"]);
+				unset($_GET["hours"]);
+				unset($_GET["notes"]);
+				unset($_GET["status"]);
+
 }
 
-function new_task(){
-    $title = $_GET["title"];
-    $hours = $_GET["hours"];
-    $notes = $_GET["notes"];
-      
-    
-    if($_GET["status"] == "todo"){
-        $status = 0;
-    }
-    else
-    {
-        $status = 1;
-    }
-    
-    $link = connect_db();
-    
-       	$sql = "INSERT INTO `tasks`( `task_title`, `task_hours`, `task_status`, `task_notes`) VALUES (\"$title\",$hours,$status,\"$notes\")";
-    
-			
-    $result = mysqli_query($link, $sql);
-    if (!$link) {
-        echo "Error!";
-    }
-    else
-    {
-        header("Refresh:0;url=../index.php");
-    }
-    
-				
+function new_task()
+{
+				$title = $_GET["title"];
+				$hours = $_GET["hours"];
+				$notes = $_GET["notes"];
+
+
+				if ($_GET["status"] == "todo")
+				{
+								$status = 0;
+				} else
+				{
+								$status = 1;
+				}
+
+				$link = connect_db();
+
+				$sql = "INSERT INTO `tasks`( `task_title`, `task_hours`, `task_status`, `task_notes`) VALUES (\"$title\",$hours,$status,\"$notes\")";
+
+
+				$result = mysqli_query($link, $sql);
+				if (!$link)
+				{
+								echo "Error!";
+				} else
+				{
+								header("Refresh:0;url=../index.php");
+				}
+
+
 }
 
 
@@ -119,14 +120,16 @@ function connect_and_get($status, $keyword, $title)
 												$hours_id = str_replace("\"", "", $hours_id);
 												$yes_id = $keyword . "_yes";
 												$yes_id = str_replace("\"", "", $yes_id);
-                                                $error_id = $keyword . "_err";
+												$error_id = $keyword . "_err";
 												$error_id = str_replace("\"", "", $error_id);
 												$info_rows = $keyword . "_info";
 												$info_rows = str_replace("\"", "", $info_rows);
 												$edit_buttons = $keyword . "_editbuttons";
 												$edit_buttons = str_replace("\"", "", $edit_buttons);
-                                                $totalhrs = $keyword . "_totalhours";
-                                                $totalhrs = str_replace("\"", "", $totalhrs);
+												$move_button = $keyword . "_move_buttons";
+												$move_button = str_replace("\"", "", $move_button);
+												$totalhrs = $keyword . "_totalhours";
+												$totalhrs = str_replace("\"", "", $totalhrs);
 												$notes = $row->task_notes;
 												if (empty($row->task_notes))
 												{
@@ -144,7 +147,18 @@ function connect_and_get($status, $keyword, $title)
                     <td> <button id='$edit_id' onclick='edit_task($id,$table,$rowno)' class ='$buttonclass $keyword'>Edit</button> </td>
                     <td> <button onclick='open_dialogue($id,$delete_id,$table)'  class ='$buttonclass $keyword'>Delete</button> </td>
                     </tr>
-                    <tr  class =$edit_buttons>
+                    ";
+												if ($keyword == 'todo')
+												{
+																echo "<tr id ='$move_button'><td> <button onclick='move($id,progress)' class =' $buttonclass $keyword'>Move to In Progress</button> </td>
+                        <td> <button onclick='move($id,done)'  class =' $buttonclass $keyword'>Move to Done</button> </td></tr>";
+												} else
+																if ($keyword == 'progress')
+																{
+																				echo "<tr  id ='$move_button' ><td> <button onclick='move($id,todo)' class='$buttonclass $keyword'>Move to To-Do</button> </td>
+                        <td> <button onclick='move($id,done)'  class =' $buttonclass $keyword'>Move to Done</button> </td></tr>";
+																}
+												echo " <tr  class =$edit_buttons>
                     <td> <span class='error_class' id='$error_id'></span><button  onclick='done_editing($table)' class ='$buttonclass $keyword'>Done</button> </td>
                     <td> <button  onclick='cancel_editing($table)' class ='$buttonclass $keyword'>Cancel</button> </td>
                     </tr>
