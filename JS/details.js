@@ -9,6 +9,70 @@ var title_value = null;
 var hours_value = null;
 var row_no = null;
 
+function check_total_hours()
+{
+	   // get value of selected 'status' radio button
+        var keyword = getRadioVal( document.getElementById('new_task'), 'status' );
+
+    //update total hours
+		var difference =  hours_value- $('#form_hours').val();
+ 	totalhours_elemid = "#" + keyword + '_totalhours';
+		var totalhours = $(totalhours_elemid).text() - difference;
+        var err_classname =  'submit_err';
+	if (keyword == 'todo' && totalhours > 24)
+	{	
+			document.getElementById(err_classname).innerHTML='Error! Total hours must remain under 24!';
+            console.log(document.getElementById(err_classname));
+			document.getElementById(err_classname).style.display = 'block';
+            $('#submit_button').attr("disabled", true); 
+           
+	}
+    else if (keyword == 'progress' && totalhours > 8)
+	{	
+			document.getElementById(err_classname).innerHTML='Error! Total hours must remain under 8!';
+			document.getElementById(err_classname).style.display = 'block';
+            $('#submit_button').attr("disabled", true); 
+           
+	}
+    else
+    {
+        $('#submit_button').attr("disabled", false); 
+    }
+    
+};
+
+function getRadioVal(form, name) {
+    var val;
+    // get list of radio buttons with specified name
+    var radios = form.elements[name];
+    
+    // loop through list of radio buttons
+    for (var i=0, len=radios.length; i<len; i++) {
+        if ( radios[i].checked ) { // radio checked?
+            val = radios[i].value; // if so, hold its value in val
+            break; // and break out of for loop
+        }
+    }
+    return val; // return value of checked radio or undefined if none checked
+};
+
+function show_add_task()
+{
+    var form = document.getElementById('new_task');
+    if(form.style.display == 'block')
+    {
+        form.style.display = 'none';
+    }
+    else
+    {
+        form.style.display = 'block';
+            
+    }        
+};
+
+   
+
+
 function show_info(table, id, rowno)
 {
 	if (!editing)
@@ -56,7 +120,7 @@ function cancel_editing(keyword)
 	$(notes_elemid).html("Notes: " + notes_value);
 	$(title_elemid).html(title_value);
 	$(hours_elemid).html(hours_value);
-	stop_editing(keyword);
+	;stop_editing(keyword);
 }
 
 function stop_editing(keyword)
@@ -80,7 +144,7 @@ function stop_editing(keyword)
 	notes_value = null;
 	title_value = null;
 	hours_value = null;
-	row_no = null;
+	;row_no = null;
 }
 
 function edit_task(id, keyword, in_rowno)
@@ -184,10 +248,7 @@ function done_editing(keyword)
 				'edit_hours': hours_value
 			},
 			url: '../DB/DB_fns.php',
-			method: 'POST',
-			success: function()
-			{
-			}
+			method: 'POST'
 		});
 		stop_editing(keyword);
 };

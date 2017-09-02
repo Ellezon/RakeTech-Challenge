@@ -35,6 +35,47 @@ if (isset($_POST["edit_id"]))
 				$edit_info = null;
 }
 
+if (isset($_GET["title"]))
+{
+    new_task();
+    unset($_GET["title"]);
+    unset($_GET["hours"]);
+    unset($_GET["notes"]);
+    unset($_GET["status"]);
+				
+}
+
+function new_task(){
+    $title = $_GET["title"];
+    $hours = $_GET["hours"];
+    $notes = $_GET["notes"];
+      
+    
+    if($_GET["status"] == "todo"){
+        $status = 0;
+    }
+    else
+    {
+        $status = 1;
+    }
+    
+    $link = connect_db();
+    
+       	$sql = "INSERT INTO `tasks`( `task_title`, `task_hours`, `task_status`, `task_notes`) VALUES (\"$title\",$hours,$status,\"$notes\")";
+    
+			
+    $result = mysqli_query($link, $sql);
+    if (!$link) {
+        echo "Error!";
+    }
+    else
+    {
+        header("Refresh:0;url=../index.php");
+    }
+    
+				
+}
+
 
 function connect_and_get($status, $keyword, $title)
 {

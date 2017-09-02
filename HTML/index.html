@@ -4,17 +4,19 @@
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+
+
 <div class="new_task_center">
-<button class= "add_buttons"> Add New Task </button>
+<button class= "add_buttons" onclick='show_add_task()'> Add New Task </button>
 </div>
 
-<form id ="new_task" action="../DB/DB_fns.php">
+<form id ="new_task" action="../DB/DB_fns.php" method="get">
 
  <div class="new_task_left">
-  <input type="text" name="title" placeholder="Task Name"/>
+  <input type="text" name="title" required placeholder="Task Name"/>
   </div>
   <div class="new_task_right">
-  <input type="number" name="hours" placeholder="Number of hours"/>
+  <input type="number" id="form_hours" onchange="check_total_hours()" name="hours" min="0" step="1" required placeholder="Number of hours"/>
   </div>
   
   <div class="new_task_left">
@@ -22,12 +24,14 @@
    </div>
    
    <div class="new_task_right">
-  <input checked type="radio" name="gender" value="todo"  /> To-Do
-  <input type="radio" name="gender" value="progress"/> In Progress
+  <input checked type="radio" name="status" value="todo"  /> To-Do
+  <input type="radio" name="status" value="progress"/> In Progress
  </div>
  
   <div class="new_task_center">
-  <button class= "add_buttons" type="submit" form="new_task" value="Submit">Submit</button>
+  <!--TODO CHECK total hours before sending-->
+  <span id="submit_err" class="error_class"></span>
+  <button id="submit_button" class= "add_buttons" type="submit" form="new_task" value="Submit">Submit</button>
   </div>
   
 </form> 

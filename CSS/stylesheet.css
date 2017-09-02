@@ -31,7 +31,7 @@ padding-bottom:3em;
 
 header {
 height:13%;
-background-image:url( '../images/header.jpg');
+background-image:url( '../images/header.jpg ');
 padding:.5vw 0 0.4vw 0;
 border-bottom-left-radius:10px;
 border-bottom-right-radius:10px;
@@ -124,8 +124,6 @@ border-bottom-left-radius:10px;
 table tfoot tr:last-child td:last-child {
 border-bottom-right-radius:10px;
 }
-
-
 /*Underline and make titles bold on hover*/
 tbody td:nth-of-type(2n-1):hover,tbody td:nth-of-type(2n):focus {
 font-weight:bold;
@@ -154,8 +152,8 @@ display:none;
 #todo_delete button,#progress_delete button,#done_delete button {
 width:45%;
 }
-/* Do not display more information until title is cilcked
-  Do not underline or make titles bold on hover*/
+/* Do not display more information until title is clicked
+Do not underline or make titles bold on hover*/
 .todo_info,.progress_info,.done_info {
 background-color:#EDEDED; /* light grey */
 display:none;
@@ -183,7 +181,15 @@ font-weight:bold;
 display:none;
 text-align:center;
 }
-
+/*hide submit error*/
+span#submit_err {
+    display: none;
+    padding-top: 8em;
+    padding-bottom: 1em;
+    white-space: nowrap;
+    width: 100%;
+}
+/* add new task styling */
 .add_buttons {
 width:70%;
 background-color:lightgrey;
@@ -192,25 +198,30 @@ height:7%;
 font-size:1.3vw;
 }
 
-.new_task_left,.new_task_right
-{
-    width: 20%;
-    padding-top:  1em;
-    padding-bottom: 1em;
-}
-.new_task_center{
-    margin:auto;
-    text-align:center;
-    width:  100%;
-}
-.new_task_left{
-    float:left;
-    margin-left: 20em;
+.new_task_left,.new_task_right {
+width:20%;
+padding-top:1em;
+padding-bottom:1em;
 }
 
-.new_task_right{
-    float:right;
-    margin-right: 20em;
+.new_task_center {
+margin:auto;
+text-align:center;
+width:100%;
+}
+
+.new_task_left {
+float:left;
+margin-left:20em;
+}
+
+.new_task_right {
+float:right;
+margin-right:20em;
+}
+
+#new_task {
+display:none;
 }
 
 footer {
@@ -218,7 +229,7 @@ height:auto;
 text-align:center;
 margin:auto;
 padding-top:3vw;
-background-image:url( '../images/header.jpg ');
+background-image:url( '../images/header.jpg');
 border-top-left-radius:10px;
 border-top-right-radius:10px;
 padding-top:1em;
@@ -231,7 +242,6 @@ color:white;
 }
 /*Responsive*/
 @media screen and (max-width:800px) {
-    
 #tasks {
 display:block;
 width:90%;
@@ -266,25 +276,23 @@ font-size:6vw;
 font-size:3vw;
 }
 
-
-.new_task_left input,.new_task_right input
-{
-    font-size: 3vw;
+.new_task_left input,.new_task_right input {
+font-size:3vw;
 }
 
-.new_task_left,.new_task_right{
-    float: none;
-    width: 100%;
-    margin-left: 22vw; 
-    margin-right:0;
+.new_task_left,.new_task_right {
+float:none;
+width:100%;
+margin-left:22vw;
+margin-right:0;
 }
 
 button {
 padding:1vw;
-font-size: 3vw;
+font-size:3vw;
 }
 
-.add_buttons{
+.add_buttons {
 font-size:3vw;
 }
 
@@ -293,4 +301,7 @@ text-decoration:none;
 font-size:3vw;
 }
 
+span#submit_err {
+    padding-top: 1em;
+}
 }
