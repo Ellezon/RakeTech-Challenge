@@ -1,12 +1,15 @@
 <?php
 
 include ('DB_connect.php');
+
+//check if delete task function has been called
 if (isset($_GET["del_id"]))
 {
 				$del_id = json_decode($_GET["del_id"], false);
 				$outp = delete_task($del_id);
 				unset($_GET["del_id"]);
 }
+//check if edit task function has been called
 if (isset($_POST["edit_id"]))
 {
 				$edit_info = new stdClass();
@@ -35,24 +38,54 @@ if (isset($_POST["edit_id"]))
 				$edit_info = null;
 }
 
-if (isset($_GET["title"]))
+//check if add task function has been called
+if (isset($_POST["title"]))
 {
 				new_task();
-				unset($_GET["title"]);
-				unset($_GET["hours"]);
-				unset($_GET["notes"]);
-				unset($_GET["status"]);
+				unset($_POST["title"]);
+				unset($_POST["hours"]);
+				unset($_POST["notes"]);
+				unset($_POST["status"]);
 
 }
 
+//check if move task function has been called
+if(isset($_POST["move_id"]))
+{
+    move_task();
+    unset($_POST["move_id"]);
+    unset($_POST["new_status"]);
+				
+}
+ function move_task()
+ {
+    $status = $_POST["new_status"];
+    $move_id = $_POST["move_id"];
+	           $link = connect_db();
+				if ($link->connect_error)
+				{
+								die("Connection failed: " . $conn->connect_error);
+				}
+				
+				
+				$sql = "UPDATE `tasks` SET `task_status`= $status WHERE `task_ID` = $move_id";
+
+				if ($link->query($sql) === true)
+				{
+								echo "Record updated successfully";
+				} else
+				{
+								echo "Error deleting record: " . $link->error;
+				}
+ }
 function new_task()
 {
-				$title = $_GET["title"];
-				$hours = $_GET["hours"];
-				$notes = $_GET["notes"];
+				$title = $_POST["title"];
+				$hours = $_POST["hours"];
+				$notes = $_POST["notes"];
 
 
-				if ($_GET["status"] == "todo")
+				if ($_POST["status"] == "todo")
 				{
 								$status = 0;
 				} else
@@ -120,8 +153,10 @@ function connect_and_get($status, $keyword, $title)
 												$hours_id = str_replace("\"", "", $hours_id);
 												$yes_id = $keyword . "_yes";
 												$yes_id = str_replace("\"", "", $yes_id);
-												$error_id = $keyword . "_err";
-												$error_id = str_replace("\"", "", $error_id);
+												$error_class = $keyword . "_err";
+												$error_class = str_replace("\"", "", $error_class);
+                                                $move_err = $keyword . "_move_err";
+												$move_err = str_replace("\"", "", $move_err);
 												$info_rows = $keyword . "_info";
 												$info_rows = str_replace("\"", "", $info_rows);
 												$edit_buttons = $keyword . "_editbuttons";
@@ -150,19 +185,18 @@ function connect_and_get($status, $keyword, $title)
                     ";
 												if ($keyword == 'todo')
 												{
-																echo "<tr id ='$move_button'><td> <button onclick='move($id,progress)' class =' $buttonclass $keyword'>Move to In Progress</button> </td>
-                        <td> <button onclick='move($id,done)'  class =' $buttonclass $keyword'>Move to Done</button> </td></tr>";
+																echo "<tr class ='$move_button'><td><span class='error_class $move_err'></span><button onclick='move($id,$table,\"progress\",$hours,$rowno)' class =' $buttonclass $keyword'>Move to In Progress</button> </td>
+                        <td> <button onclick='move($id,$table,\"done\",$hours,$rowno)'  class =' $buttonclass $keyword'>Move to Done</button> </td></tr>";
 												} else
 																if ($keyword == 'progress')
 																{
-																				echo "<tr  id ='$move_button' ><td> <button onclick='move($id,todo)' class='$buttonclass $keyword'>Move to To-Do</button> </td>
-                        <td> <button onclick='move($id,done)'  class =' $buttonclass $keyword'>Move to Done</button> </td></tr>";
+																					echo "<tr class ='$move_button'><td> <span class='error_class $move_err'></span><button onclick='move($id,$table,\"todo\",$hours,$rowno)' class =' $buttonclass $keyword'>Move to To-Do</button> </td>
+                        <td> <button onclick='move($id,$table,\"done\",$hours,$rowno)'  class =' $buttonclass $keyword'>Move to Done</button> </td></tr>";
 																}
 												echo " <tr  class =$edit_buttons>
-                    <td> <span class='error_class' id='$error_id'></span><button  onclick='done_editing($table)' class ='$buttonclass $keyword'>Done</button> </td>
+                    <td> <span class='error_class $error_class'></span><button  onclick='done_editing($table)' class ='$buttonclass $keyword'>Done</button> </td>
                     <td> <button  onclick='cancel_editing($table)' class ='$buttonclass $keyword'>Cancel</button> </td>
-                    </tr>
-                    ";
+                    </tr>";
 								}
 								echo " </tbody>
                 <tfoot>

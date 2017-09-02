@@ -9,39 +9,101 @@ var title_value = null;
 var hours_value = null;
 var row_no = null;
 
-function move($id, $table)
+function move(id, old_table, table, hours, row_no)
 {
-	//case 
+     console.log(id, old_table, table, hours, row_no);
+     var err_class = old_table+ '_move_err';
+    document.getElementsByClassName(err_class)[row_no].style.display = 'none';
+	
+	//get total hours of new table
+    var table_id = "#"+ table+'_totalhours';
+    var totalhrs = 0;
+    if( $(table_id).length)
+    {
+        totalhrs = parseInt($(table_id).text());
+    }
+    console.log("new table: "+table_id,"totalhours: "+totalhrs);
+   	var new_total = totalhrs+hours;
+
+	if (table == 'todo' && new_total > 24)
+	{
+	   console.log("in");
+		document.getElementsByClassName(err_class)[row_no].innerHTML = 'Total hours must remain under 24!';
+		document.getElementsByClassName(err_class)[row_no].style.display = 'block';
+        return;
+	}
+	else if (table == 'progress' && new_total > 8)
+	{
+		document.getElementsByClassName(err_class)[row_no].innerHTML = 'Total hours must remain under 8!';
+		document.getElementsByClassName(err_class)[row_no].style.display = 'block';
+        return;
+	}
+     
+    var status;
+    
+	switch(table) {
+    case 'todo':
+        status = 0;
+        break;
+    case 'progress':
+        status = 1;
+        break;
+    case 'done':
+        status = 2;
+        break;
+    }
+    	$.ajax({
+		data: {
+			'move_id': id,
+			'new_status': status
+		},
+		url: '../DB/DB_fns.php',
+		method: 'POST',
+        success: function(msg)
+			{
+				location.reload();
+			}
+	});
+   
+    
+    
 };
 
-function show_move_buttons(table)
+function show_move_buttons(table,row)
 {
 	if (!editing)
 	{
 		var move_buttons = table + '_move_buttons';
 		if (table == "todo" || table == "progress")
 		{
-			if (document.getElementById(move_buttons).style.display == "table-row")
+			if (document.getElementsByClassName(move_buttons)[row].style.display == "table-row")
 			{
-				document.getElementById(move_buttons).style.display = "none";
+				document.getElementsByClassName(move_buttons)[row].style.display = "none";
 			}
 			else
 			{
-				document.getElementById(move_buttons).style.display = "table-row";
+				document.getElementsByClassName(move_buttons)[row].style.display = "table-row";
 			}
 		}
 	}
 };
 
+
 function check_total_hours()
 {
+    	var err_classname = 'submit_err';
+		document.getElementById(err_classname).style.display = 'none';
 	// get value of selected 'status' radio button
 	var keyword = getRadioVal(document.getElementById('new_task'), 'status');
 	//update total hours
 	var difference = hours_value - $('#form_hours').val();
+    if($('#form_hours').val() < 0)
+    {
+		$('#submit_button').attr("disabled", true);
+    }
 	totalhours_elemid = "#" + keyword + '_totalhours';
 	var totalhours = $(totalhours_elemid).text() - difference;
-	var err_classname = 'submit_err';
+
 	if (keyword == 'todo' && totalhours > 24)
 	{
 		document.getElementById(err_classname).innerHTML = 'Error! Total hours must remain under 24!';
@@ -105,7 +167,7 @@ function show_info(table, id, rowno)
 			document.getElementsByClassName(info_classname)[rowno + rowno].style.display = "table-row";
 			document.getElementsByClassName(info_classname)[rowno + rowno + 1].style.display = "table-row";
 		}
-		show_move_buttons(table);
+		show_move_buttons(table,rowno);
 	}
 };
 
@@ -124,7 +186,6 @@ function open_dialogue(id, delete_id, keyword)
 			data: 'del_id=' + id,
 			url: '../DB/DB_fns.php',
 			method: 'GET',
-			// or GET
 			success: function(msg)
 			{
 				location.reload();
@@ -144,7 +205,7 @@ function cancel_editing(keyword)
 function stop_editing(keyword)
 {
 	editing = false;
-	show_move_buttons(keyword);
+	show_move_buttons(keyword,row_no);
 	//show edit and delete buttons and hide edit options
 	var classname = keyword + "_info";
 	document.getElementsByClassName(classname)[row_no + row_no + 1].style.display = "table-row";
@@ -173,6 +234,7 @@ function edit_task(id, keyword, in_rowno)
 	title_elemid = "#" + keyword + "_title_" + row_no;
 	hours_elemid = "#" + keyword + "_hours_" + row_no;
 	totalhours_elemid = "#" + keyword + '_totalhours';
+    
 	//edit_id = "#" +keyword + "_edit";
 	task_id = id;
 	notes_value = $(notes_elemid).text();
@@ -194,8 +256,8 @@ function edit_task(id, keyword, in_rowno)
 	{
 		'value': hours_value,
 		'size': '2',
-		'type': 'text',
-		'id': 'hours_editing'
+		'type': 'number',
+		'id': 'hours_editing',
 	}).appendTo(hours_elemid);
 	editing = true;
 	$(title_elemid).html('');
@@ -204,8 +266,9 @@ function edit_task(id, keyword, in_rowno)
 		'value': title_value,
 		'size': '5',
 		'type': 'text',
-		'id': 'title_editing'
+		'id': 'title_editing',
 	}).appendTo(title_elemid);
+    
 	$('#title_editing').focus();
 	//remove edit and delete buttons and show done and cancel buttons
 	var classname = keyword + "_info";
@@ -216,11 +279,11 @@ function edit_task(id, keyword, in_rowno)
 	{
 		//hide move buttons
 		var move_buttons = keyword + "_move_buttons";
-		document.getElementById(move_buttons).style.display = "none";
+		document.getElementsByClassName(move_buttons)[row_no].style.display = "none";
 	}
 	//remove error
 	var err_classname = keyword + '_err';
-	document.getElementById(err_classname).innerHTML = '';
+	document.getElementsByClassName(err_classname)[row_no].innerHTML = '';
 	//make title seem unclickable
 	var title_classname = keyword + '_title_' + row_no;
 
@@ -233,19 +296,27 @@ function done_editing(keyword)
 	var difference = hours_value - $('#hours_editing').val();
 	var totalhours = $(totalhours_elemid).text() - difference;
 	var err_classname = keyword + '_err';
+  
+     
+    if ($('#hours_editing').val() <0)
+	{
+		document.getElementsByClassName(err_classname)[row_no].innerHTML = 'Error! Number of hours must be positive!';
+		document.getElementsByClassName(err_classname)[row_no].style.display = 'table-cell';
+		return;
+	}
 	if (keyword == 'todo' && totalhours > 24)
 	{
-		document.getElementById(err_classname).innerHTML = 'Error! Total hours must remain under 24!';
-		document.getElementById(err_classname).style.display = 'table-cell';
+		document.getElementsByClassName(err_classname)[row_no].innerHTML = 'Error! Total hours must remain under 24!';
+		document.getElementsByClassName(err_classname)[row_no].style.display = 'table-cell';
 		return;
 	}
 	else if (keyword == 'progress' && totalhours > 8)
 	{
-		document.getElementById(err_classname).innerHTML = 'Error! Total hours must remain under 8!';
-		document.getElementById(err_classname).style.display = 'table-cell';
+		document.getElementsByClassName(err_classname)[row_no].innerHTML = 'Error! Total hours must remain under 8!';
+		document.getElementsByClassName(err_classname)[row_no].style.display = 'table-cell';
 		return;
 	}
-	document.getElementById(err_classname).style.display = 'none';
+	document.getElementsByClassName(err_classname)[row_no].style.display = 'none';
 	notes_value = $('#notes_editing').val();
 	title_value = $('#title_editing').val();
 	hours_value = $('#hours_editing').val();

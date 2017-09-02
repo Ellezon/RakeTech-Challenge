@@ -10,13 +10,13 @@
 <button class= "add_buttons" onclick='show_add_task()'> Add New Task </button>
 </div>
 
-<form id ="new_task" action="../DB/DB_fns.php" method="get">
+<form id ="new_task" action="../DB/DB_fns.php" method="post">
 
  <div class="new_task_left">
   <input type="text" name="title" required placeholder="Task Name"/>
   </div>
   <div class="new_task_right">
-  <input type="number" id="form_hours" onchange="check_total_hours()" name="hours" min="0" step="1" required placeholder="Number of hours"/>
+  <input type="number" id="form_hours" onblur="check_total_hours()" name="hours" min="0" step="1" required placeholder="Number of hours"/>
   </div>
   
   <div class="new_task_left">
@@ -24,8 +24,8 @@
    </div>
    
    <div class="new_task_right">
-  <input checked type="radio" name="status" value="todo"  /> To-Do
-  <input type="radio" name="status" value="progress"/> In Progress
+  <input onchange="check_total_hours()" checked type="radio" name="status" value="todo"  /> To-Do
+  <input onchange="check_total_hours()" type="radio" name="status" value="progress"/> In Progress
  </div>
  
   <div class="new_task_center">

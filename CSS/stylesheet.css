@@ -139,6 +139,7 @@ font-weight:bold;
 border-radius:20px;
 text-align:center;
 font-family: 'Lato';
+font-size: 1vw;
 }
 
 button:hover {
@@ -224,7 +225,8 @@ margin-right:20em;
 display:none;
 }
 
-#todo_move_buttons,#progress_move_buttons {
+/*move buttons*/
+.todo_move_buttons,.progress_move_buttons {
 display:none;
 }
 
