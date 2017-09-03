@@ -92,6 +92,7 @@ tbody td {
 padding:.8vw;
 font-size:1.5vw;
 border:3px solid lightgrey;
+width: 60%;
 }
 /*set themes*/
 .todo {
@@ -130,6 +131,8 @@ font-weight:bold;
 text-decoration:underline;
 cursor:pointer;
 }
+
+
 /* buttons */
 button {
 color:white;
@@ -139,7 +142,7 @@ font-weight:bold;
 border-radius:20px;
 text-align:center;
 font-family: 'Lato';
-font-size: 1vw;
+font-size: 1.5vw;
 }
 
 button:hover {
@@ -168,11 +171,19 @@ cursor:auto;
 /* Do not display edit buttons until edit button is clicked*/
 .todo_editbuttons,.progress_editbuttons,.done_editbuttons {
 display:none;
+background: #EDEDED; 
 }
 
 tbody .todo_editbuttons td:hover,tbody .progress_editbuttons td:hover,tbody .done_editbuttons td:hover {
 cursor:auto;
 }
+
+/*edit inputs*/
+.editing {
+    font-size: 1em;
+    width: 70%;
+}
+
 /*error messages*/
 .error_class,.error_class:hover {
 text-decoration:none;
@@ -228,6 +239,7 @@ display:none;
 /*move buttons*/
 .todo_move_buttons,.progress_move_buttons {
 display:none;
+background: #EDEDED;
 }
 
 footer {
@@ -289,8 +301,9 @@ font-size:3vw;
 .new_task_left,.new_task_right {
 float:none;
 width:100%;
-margin-left:22vw;
-margin-right:0;
+margin-left:auto;
+margin-right:auto;
+width: 45%;
 }
 
 button {

@@ -171,13 +171,13 @@ function connect_and_get($status, $keyword, $title)
 																$notes = "None";
 												}
 
-												echo "  <tr>
+												echo " <tr>
                         <td id= '$title_id' onclick='show_info($table,$id, $rowno);'>$name</td>
                         <td id= '$hours_id'>$hours</td>
                     </tr>
                     <tr  class =$info_rows>
                     <td id= '$notes_id' colspan = '2'>Notes: $notes </td>
-                    </tr>
+                    </tr> 
                     <tr  class =$info_rows>
                     <td> <button id='$edit_id' onclick='edit_task($id,$table,$rowno)' class ='$buttonclass $keyword'>Edit</button> </td>
                     <td> <button onclick='open_dialogue($id,$delete_id,$table)'  class ='$buttonclass $keyword'>Delete</button> </td>
@@ -194,14 +194,14 @@ function connect_and_get($status, $keyword, $title)
                         <td> <button onclick='move($id,$table,\"done\",$hours,$rowno)'  class =' $buttonclass $keyword'>Move to Done</button> </td></tr>";
 																}
 												echo " <tr  class =$edit_buttons>
-                    <td> <span class='error_class $error_class'></span><button  onclick='done_editing($table)' class ='$buttonclass $keyword'>Done</button> </td>
+                    <td> <span class='error_class $error_class'></span><button onclick='done_editing($table)' class ='$buttonclass $keyword'>Done</button> </td>
                     <td> <button  onclick='cancel_editing($table)' class ='$buttonclass $keyword'>Cancel</button> </td>
-                    </tr>";
+                    </tr> ";
 								}
 								echo " </tbody>
                 <tfoot>
                     <tr class = '$keyword'>
-                        <td>Total Hours</td>
+                        <td>Total Hours :</td>
                         <td id =$totalhrs>$totalHours</td>
                 </tr>
                 </tfoot>
@@ -258,7 +258,7 @@ function edit_task($edit_id, $edit_info)
 				//remove starting comma
 				$sqlpt = preg_replace('/^,+|,+$/', '', $sqlpt);
 				$sql = "UPDATE `tasks` SET $sqlpt WHERE `task_ID` = $edit_id";
-				//error_log("all: ".$sql);
+				
 				if ($link->query($sql) === true)
 				{
 								echo "Record updated successfully";

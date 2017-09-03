@@ -11,7 +11,6 @@ var row_no = null;
 
 function move(id, old_table, table, hours, row_no)
 {
-     console.log(id, old_table, table, hours, row_no);
      var err_class = old_table+ '_move_err';
     document.getElementsByClassName(err_class)[row_no].style.display = 'none';
 	
@@ -22,12 +21,10 @@ function move(id, old_table, table, hours, row_no)
     {
         totalhrs = parseInt($(table_id).text());
     }
-    console.log("new table: "+table_id,"totalhours: "+totalhrs);
    	var new_total = totalhrs+hours;
 
 	if (table == 'todo' && new_total > 24)
 	{
-	   console.log("in");
 		document.getElementsByClassName(err_class)[row_no].innerHTML = 'Total hours must remain under 24!';
 		document.getElementsByClassName(err_class)[row_no].style.display = 'block';
         return;
@@ -246,27 +243,33 @@ function edit_task(id, keyword, in_rowno)
 	$(notes_elemid).html('');
 	$('<input></input>').attr(
 	{
+	   'class' : 'editing',
 		'value': notes_value,
 		'type': 'text',
+        'size' : '10',
 		'id': 'notes_editing'
+        
 	}).appendTo(notes_elemid);
 
+    //$(notes_elemid).input.validity.valid;
 	$(hours_elemid).html('');
 	$('<input></input>').attr(
 	{
+	    'class' : 'editing',
 		'value': hours_value,
 		'size': '2',
 		'type': 'number',
-		'id': 'hours_editing',
+		'id': 'hours_editing'
 	}).appendTo(hours_elemid);
 	editing = true;
 	$(title_elemid).html('');
 	$('<input></input>').attr(
 	{
+	    'class' : 'editing',
 		'value': title_value,
 		'size': '5',
 		'type': 'text',
-		'id': 'title_editing',
+		'id': 'title_editing'
 	}).appendTo(title_elemid);
     
 	$('#title_editing').focus();
@@ -297,27 +300,48 @@ function done_editing(keyword)
 	var totalhours = $(totalhours_elemid).text() - difference;
 	var err_classname = keyword + '_err';
   
-     
+    if ($('#hours_editing').val() == "")
+	{
+		document.getElementsByClassName(err_classname)[row_no].innerHTML = 'Error! Number of hours required!';
+		document.getElementsByClassName(err_classname)[row_no].style.display = 'block';
+		return;
+	}
+   
+    if ($('#title_editing').val().length == 0)
+	{
+		document.getElementsByClassName(err_classname)[row_no].innerHTML = 'Error! Title required!';
+		document.getElementsByClassName(err_classname)[row_no].style.display = 'block';
+		return;
+	}
+    
+    
+    
     if ($('#hours_editing').val() <0)
 	{
 		document.getElementsByClassName(err_classname)[row_no].innerHTML = 'Error! Number of hours must be positive!';
-		document.getElementsByClassName(err_classname)[row_no].style.display = 'table-cell';
+		document.getElementsByClassName(err_classname)[row_no].style.display = 'block';
 		return;
 	}
 	if (keyword == 'todo' && totalhours > 24)
 	{
 		document.getElementsByClassName(err_classname)[row_no].innerHTML = 'Error! Total hours must remain under 24!';
-		document.getElementsByClassName(err_classname)[row_no].style.display = 'table-cell';
+		document.getElementsByClassName(err_classname)[row_no].style.display = 'block';
 		return;
 	}
 	else if (keyword == 'progress' && totalhours > 8)
 	{
 		document.getElementsByClassName(err_classname)[row_no].innerHTML = 'Error! Total hours must remain under 8!';
-		document.getElementsByClassName(err_classname)[row_no].style.display = 'table-cell';
+		document.getElementsByClassName(err_classname)[row_no].style.display = 'block';
 		return;
 	}
 	document.getElementsByClassName(err_classname)[row_no].style.display = 'none';
-	notes_value = $('#notes_editing').val();
+	if ($('#notes_editing').val().length == 0)
+	{
+		notes_value = "None";
+	}else
+    { 
+        notes_value = $('#notes_editing').val();
+    }
 	title_value = $('#title_editing').val();
 	hours_value = $('#hours_editing').val();
 	$(totalhours_elemid).text(totalhours);
