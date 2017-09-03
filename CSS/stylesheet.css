@@ -16,7 +16,7 @@ width:100%;
 height:auto;
 min-height:100%;
 display:flex;
-background-image:url( '../images/bg.jpg ');
+background-image:url( '../images/bg.jpg');
 }
 
 #content {
@@ -29,14 +29,15 @@ border:3px solid lightgrey;
 padding-bottom:3em;
 }
 
+/*header*/
 header {
 height:13%;
-background-image:url( '../images/header.jpg ');
+background-image:url( '../images/header.jpg');
 padding:.5vw 0 0.4vw 0;
 border-bottom-left-radius:10px;
 border-bottom-right-radius:10px;
 }
-/*header*/
+
 #header-content {
 text-align:center;
 height:3vw;
@@ -46,6 +47,7 @@ text-align:center;
 font-family: 'Itim';
 }
 
+/*title and logo*/
 #organiser img {
 height:100%;
 width:auto;
@@ -59,7 +61,8 @@ max-height:100%;
 color:white;
 font-size:3.5vw;
 }
-/*task table*/
+
+/*task tables*/
 #tasks {
 padding-top:3vw;
 width:70%;
@@ -92,9 +95,10 @@ tbody td {
 padding:.8vw;
 font-size:1.5vw;
 border:3px solid lightgrey;
-width: 60%;
+width:60%;
 }
-/*set themes*/
+
+/*set themes for each table*/
 .todo {
 background-color:#F12840; /* red */
 color:white;
@@ -109,7 +113,8 @@ color:white;
 background-color:#0BBC13; /* green */
 color:white;
 }
-/* Make rounded borders */
+
+/* Add rounded borders*/
 table thead tr:first-child td:first-child {
 border-top-left-radius:10px;
 }
@@ -125,13 +130,13 @@ border-bottom-left-radius:10px;
 table tfoot tr:last-child td:last-child {
 border-bottom-right-radius:10px;
 }
+
 /*Underline and make titles bold on hover*/
 tbody td:nth-of-type(2n-1):hover,tbody td:nth-of-type(2n):focus {
 font-weight:bold;
 text-decoration:underline;
 cursor:pointer;
 }
-
 
 /* buttons */
 button {
@@ -142,13 +147,14 @@ font-weight:bold;
 border-radius:20px;
 text-align:center;
 font-family: 'Lato';
-font-size: 1.5vw;
+font-size:1.5vw;
 }
 
 button:hover {
 cursor:pointer;
 }
-/* dialogue buttons */
+
+/* delete dialogue buttons */
 #todo_delete,#progress_delete,#done_delete {
 display:none;
 }
@@ -156,8 +162,9 @@ display:none;
 #todo_delete button,#progress_delete button,#done_delete button {
 width:45%;
 }
-/* Do not display more information until title is clicked
-Do not underline or make titles bold on hover*/
+
+/* Hide more task information until title is clicked
+Remove underline or make titles bold on hover*/
 .todo_info,.progress_info,.done_info {
 background-color:#EDEDED; /* light grey */
 display:none;
@@ -168,10 +175,11 @@ font-weight:normal;
 text-decoration:none;
 cursor:auto;
 }
-/* Do not display edit buttons until edit button is clicked*/
+
+/* Hide edit buttons until edit button is clicked*/
 .todo_editbuttons,.progress_editbuttons,.done_editbuttons {
 display:none;
-background: #EDEDED; 
+background:#EDEDED;
 }
 
 tbody .todo_editbuttons td:hover,tbody .progress_editbuttons td:hover,tbody .done_editbuttons td:hover {
@@ -180,8 +188,8 @@ cursor:auto;
 
 /*edit inputs*/
 .editing {
-    font-size: 1em;
-    width: 70%;
+font-size:1em;
+width:70%;
 }
 
 /*error messages*/
@@ -193,6 +201,7 @@ font-weight:bold;
 display:none;
 text-align:center;
 }
+
 /*hide submit error*/
 span#submit_err {
 display:none;
@@ -201,6 +210,7 @@ padding-bottom:1em;
 white-space:nowrap;
 width:100%;
 }
+
 /* add new task styling */
 .add_buttons {
 width:70%;
@@ -239,21 +249,22 @@ display:none;
 /*move buttons*/
 .todo_move_buttons,.progress_move_buttons {
 display:none;
-background: #EDEDED;
+background:#EDEDED;
 }
 
+/*footer styling*/
 footer {
 height:auto;
 text-align:center;
 margin:auto;
 padding-top:3vw;
-background-image:url( '../images/header.jpg ');
+background-image:url( '../images/header.jpg');
 border-top-left-radius:10px;
 border-top-right-radius:10px;
 padding-top:1em;
 padding-bottom:.9em;
 }
-/*footer styling*/
+
 #footer-content {
 font-size:1.5vw;
 color:white;
@@ -303,7 +314,7 @@ float:none;
 width:100%;
 margin-left:auto;
 margin-right:auto;
-width: 45%;
+width:45%;
 }
 
 button {

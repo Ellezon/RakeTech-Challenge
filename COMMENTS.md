@@ -3,6 +3,7 @@ Assumptions:
 - Single user -> No login required 
 - A new task can only be added to the todo
 - Tasks can have the same name 
+- a task must take at least one hour to complete
 
 |---------------------------------------------------------------------|
 

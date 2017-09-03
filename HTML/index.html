@@ -10,13 +10,13 @@
 <button class= "add_buttons" onclick='show_add_task()'> Add New Task </button>
 </div>
 
-<form id ="new_task" action="../DB/DB_fns.php" method="post">
+<form id ="new_task" action="../DB/DB_fns.php" method="post" onsubmit="return check_total_hours()">
 
  <div class="new_task_left">
   <input type="text" name="title" required placeholder="Task Name"/>
   </div>
   <div class="new_task_right">
-  <input type="number" id="form_hours" onblur="check_total_hours()" name="hours" min="0" step="1" required placeholder="Number of hours"/>
+  <input type="number" id="form_hours" onblur="check_total_hours()" name="hours" min="1" step="1" required placeholder="Number of hours"/>
   </div>
   
   <div class="new_task_left">
@@ -29,7 +29,6 @@
  </div>
  
   <div class="new_task_center">
-  <!--TODO CHECK total hours before sending-->
   <span id="submit_err" class="error_class"></span>
   <button id="submit_button" class= "add_buttons" type="submit" form="new_task" value="Submit">Submit</button>
   </div>
