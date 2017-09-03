@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Sep 01, 2017 at 04:17 PM
+-- Generation Time: Sep 03, 2017 at 01:00 PM
 -- Server version: 5.5.49-log
 -- PHP Version: 7.0.6
 
@@ -31,18 +31,18 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `task_title` varchar(100) NOT NULL,
   `task_hours` tinyint(4) NOT NULL,
   `task_status` tinyint(1) NOT NULL,
-  `task_notes` varchar(225) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+  `task_notes` varchar(225) NOT NULL DEFAULT 'None'
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tasks`
 --
 
 INSERT INTO `tasks` (`task_ID`, `task_title`, `task_hours`, `task_status`, `task_notes`) VALUES
-(2, 'test2', 8, 1, 'test2notes                '),
-(3, 'test3', 17, 2, 'test3notes'),
-(6, 'test0', 10, 0, 'testnotes                  '),
-(7, 'test4', 2, 0, 'None    ');
+(42, 'Clear up', 2, 0, 'Bedroom, Kitchen'),
+(43, 'Cook dinner', 1, 0, 'Sushi'),
+(44, 'Finish task', 6, 2, 'None      '),
+(45, 'Walk dog', 2, 1, 'None ');
 
 --
 -- Indexes for dumped tables
@@ -63,7 +63,7 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `task_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `task_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
