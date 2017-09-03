@@ -1,7 +1,4 @@
 |---------------------------------------------------------------------|
-Decisions:
-
-|---------------------------------------------------------------------|
 Focused points:
 - Simple Interface -> colour-coded, large text, plain design, items only show when needed
 - Responsive
@@ -38,3 +35,5 @@ Edit a task:
 4) Click 'Done'
 
 Move a task:
+1) Click on task name to view more details
+2) Press one of the 'Move' buttons
