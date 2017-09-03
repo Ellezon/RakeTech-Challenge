@@ -4,6 +4,7 @@ Assumptions:
 - A new task can only be added to the todo
 - Tasks can have the same name 
 - a task must take at least one hour to complete
+- Tasks in done can only be moved from the other tables and not created
 
 |---------------------------------------------------------------------|
 

@@ -157,7 +157,7 @@ function connect_and_get($status, $keyword, $title)
                                                 
                                                 //set classes and ids
 												$table = "\"$keyword\"";
-												$edit_id = $keyword . "_edit";
+												$edit_id = $keyword . "_edit_".$rowno;
 												$edit_id = str_replace("\"", "", $edit_id);
 												$buttonclass = $keyword . "_button";
 												$buttonclass = str_replace("\"", "", $buttonclass);
@@ -171,6 +171,8 @@ function connect_and_get($status, $keyword, $title)
 												$hours_id = str_replace("\"", "", $hours_id);
 												$yes_id = $keyword . "_yes";
 												$yes_id = str_replace("\"", "", $yes_id);
+           	                                    $close_id = $keyword . "_close";
+												$close_id = str_replace("\"", "", $close_id);
 												$error_class = $keyword . "_err";
 												$error_class = str_replace("\"", "", $error_class);
 												$move_err = $keyword . "_move_err";
@@ -229,7 +231,7 @@ function connect_and_get($status, $keyword, $title)
       </div>
       <div id='$delete_id' title='Delete task ?'>
         <button id = '$yes_id' class='$keyword'> Yes </button>
-        <button onclick='close_dialogue($delete_id);' id='close' class='$keyword'> Cancel </button>
+        <button onclick='close_dialogue($delete_id);' id='$close_id' class='$keyword'> Cancel </button>
       </div>";
 				}
 }
