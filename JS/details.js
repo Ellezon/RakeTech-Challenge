@@ -448,7 +448,6 @@ function done_editing(keyword)
 */
 function stop_editing(keyword)
 {
-	//remove move error if showing
     if(keyword!= 'done')
 	{
 	   //remove move error if showing
