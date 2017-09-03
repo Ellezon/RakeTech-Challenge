@@ -143,7 +143,10 @@ function show_info(table, id, rowno)
 		{
 			document.getElementsByClassName(info_classname)[rowno + rowno].style.display = "table-row";
 			document.getElementsByClassName(info_classname)[rowno + rowno + 1].style.display = "table-row";
-			document.getElementsByClassName(error_name)[rowno].style.display = "none";
+			if(table != 'done')
+            {
+                    document.getElementsByClassName(error_name)[rowno].style.display = "none";
+            }
 		}
 		show_move_buttons(table, rowno);
 	}
@@ -446,8 +449,12 @@ function done_editing(keyword)
 function stop_editing(keyword)
 {
 	//remove move error if showing
-	var error_name = keyword + '_move_err';
-	document.getElementsByClassName(error_name)[row_no].style.display = "none";
+    if(keyword!= 'done')
+	{
+	   //remove move error if showing
+	   var error_name = keyword + '_move_err';
+	   document.getElementsByClassName(error_name)[row_no].style.display = "none";
+    }
 	
     //show move buttons
     editing = false;
